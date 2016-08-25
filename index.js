@@ -223,6 +223,28 @@ Test = comb.define(null, {
             var opts = comb.deepMerge({}, {jar: this._jar, method: this.method, url: this._url}, this._options);
             comb.when(this._wait).chain(function () {
                 var r = request(opts, function (err, res, body) {
+                    console.log("REQUEST SUPERREQUEST")
+                    console.log("_______________________________________")
+                    
+                   
+                    console.log(res.req._header)
+                    if(res.request.body){
+                                       
+                        console.log(res.request.body.toString("utf8"))
+                        console.log();
+                    }
+                    
+                    console.log("RESPONSE SUPERREQUEST")
+                    console.log("_______________________________________")
+                    console.log("HTTP/"+res.httpVersion +" "+ res.statusCode +" "+ res.statusMessage)
+                    for(var i in res.headers)
+                    {
+                        console.log(i + ": " +res.headers[i])
+                    }
+                    console.log();
+                    console.log(body);
+                    console.log("=======================================")
+
                     if (err) {
                         return ret.errback(err);
                     } else {
