@@ -223,27 +223,33 @@ Test = comb.define(null, {
             var opts = comb.deepMerge({}, {jar: this._jar, method: this.method, url: this._url}, this._options);
             comb.when(this._wait).chain(function () {
                 var r = request(opts, function (err, res, body) {
-                    console.log("REQUEST SUPERREQUEST")
-                    console.log("_______________________________________")
+
+                    var data = "";
+                    data += ("REQUEST SUPERREQUEST")+ "\n";
+                    data += ("_______________________________________")+ "\n";
                     
                    
-                    console.log(res.req._header)
+                    data += (res.req._header)
                     if(res.request.body){
                                        
-                        console.log(res.request.body.toString("utf8"))
-                        console.log();
+                        data += (res.request.body.toString("utf8"))+ "\n";
+                        data += "\n";
                     }
                     
-                    console.log("RESPONSE SUPERREQUEST")
-                    console.log("_______________________________________")
-                    console.log("HTTP/"+res.httpVersion +" "+ res.statusCode +" "+ res.statusMessage)
+                    data += ("RESPONSE SUPERREQUEST")+ "\n";
+                    data += ("_______________________________________")+ "\n";
+                    data += ("HTTP/"+res.httpVersion +" "+ res.statusCode +" "+ res.statusMessage)+ "\n";
                     for(var i in res.headers)
                     {
-                        console.log(i + ": " +res.headers[i])
+                        data += (i + ": " +res.headers[i])+ "\n";
                     }
-                    console.log();
-                    console.log(body);
-                    console.log("=======================================")
+                    data += "\n";
+                    data += (body) + "\n";
+                    data += ("=======================================")+ "\n";
+                    if(process.postMessage)
+                    {
+                        process.postMessage("data",data);
+                    }
 
                     if (err) {
                         return ret.errback(err);
