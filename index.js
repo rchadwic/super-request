@@ -224,37 +224,40 @@ Test = comb.define(null, {
             comb.when(this._wait).chain(function () {
                 var r = request(opts, function (err, res, body) {
 
-                    var data = "";
-                    data += ("REQUEST SUPERREQUEST")+ "\n";
-                    data += ("_______________________________________")+ "\n";
-                    
-                   
-                    data += (res.req._header)
-                    if(res.request.body){
-                                       
-                        data += (res.request.body.toString("utf8"))+ "\n";
+                    if(!err && res && res.request)
+                    {
+                        var data = "";
+                        data += ("REQUEST SUPERREQUEST")+ "\n";
+                        data += ("_______________________________________")+ "\n";
+                        
+                       
+                        data += (res.req._header)
+                        if(res.request.body){
+                                           
+                            data += (res.request.body.toString("utf8"))+ "\n";
+                            data += "\n";
+                        }
+                        
+                        data += ("RESPONSE SUPERREQUEST")+ "\n";
+                        data += ("_______________________________________")+ "\n";
+                        data += ("HTTP/"+res.httpVersion +" "+ res.statusCode +" "+ res.statusMessage)+ "\n";
+                        for(var i in res.headers)
+                        {
+                            data += (i + ": " +res.headers[i])+ "\n";
+                        }
                         data += "\n";
-                    }
-                    
-                    data += ("RESPONSE SUPERREQUEST")+ "\n";
-                    data += ("_______________________________________")+ "\n";
-                    data += ("HTTP/"+res.httpVersion +" "+ res.statusCode +" "+ res.statusMessage)+ "\n";
-                    for(var i in res.headers)
-                    {
-                        data += (i + ": " +res.headers[i])+ "\n";
-                    }
-                    data += "\n";
-                    data += (body) + "\n";
-                    data += ("=======================================")+ "\n";
-                    if(process.postMessage)
-                    {
-                        process.postMessage("data",data);
-                    }
+                        data += (body) + "\n";
+                        data += ("=======================================")+ "\n";
+                        if(process.postMessage)
+                        {
+                            process.postMessage("data",data);
+                        }
 
-                    if (err) {
-                        return ret.errback(err);
-                    } else {
-                        return this._parseExpect(res, body, ret);
+                        if (err) {
+                            return ret.errback(err);
+                        } else {
+                            return this._parseExpect(res, body, ret);
+                        }
                     }
                 }.bind(this));
                 r.setMaxListeners(0);
