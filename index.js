@@ -229,9 +229,13 @@ Test = comb.define(null, {
             comb.when(this._wait).chain(function () {
                 var r = request(opts, function (err, res, body) {
 
-                    if(!err && res && res.request)
+                    if(res && res.request)
                     {
                         var data = "";
+                        if(err)
+                        {
+                            data += err + "\n";
+                        }
                         data += ("REQUEST SUPERREQUEST")+ "\n";
                         data += ("_______________________________________")+ "\n";
                         
