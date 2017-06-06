@@ -97,10 +97,15 @@ Test = comb.define(null, {
                 return v8StackTrace;
             };
 
-            var stack = dummyObject.stack;
-            Error.prepareStackTrace = v8Handler;
-            var stack = "at (" + stack[0].getFileName() + ":" + stack[0].getLineNumber() + ":" + stack[0].getColumnNumber() + ")";
+            var dummyObjectStack = dummyObject.stack;
 
+            Error.prepareStackTrace = v8Handler;
+            console.log("static is ",  dummyObject);
+            var stack = "can't capture errors";
+            if(dummyObject.stack)
+            {
+                stack = "at (" + stack[0].getFileName() + ":" + stack[0].getLineNumber() + ":" + stack[0].getColumnNumber() + ")";
+            }
             var args = comb.argsToArray(arguments);
             cb = comb.isFunction(args[args.length - 1]) ? args.pop() : null;
             if (field === cb) {
